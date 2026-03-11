@@ -1,0 +1,33 @@
+[package]
+name = "stableflow-rs"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Production-grade Rust SDK for Circle-backed stablecoin transaction flows"
+repository = "https://github.com/0rlych1kk4/stableflow-rs"
+homepage = "https://github.com/0rlych1kk4/stableflow-rs"
+documentation = "https://docs.rs/stableflow-rs"
+readme = "README.md"
+keywords = ["stablecoin", "circle", "payments", "treasury", "rust"]
+categories = ["api-bindings", "cryptography::cryptocurrencies", "finance"]
+
+[dependencies]
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls", "http2"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "1"
+uuid = { version = "1", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+tracing = "0.1"
+bytes = "1"
+base64 = "0.22"
+hex = "0.4"
+url = "2"
+secrecy = "0.8"
+pem = "3"
+rsa = { version = "0.9", features = ["sha2"] }
+sha2 = "0.10"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time"] }
+
+[dev-dependencies]
+dotenvy = "0.15"
