@@ -1,4 +1,4 @@
-use crate::circle::{transactions, wallet_sets, wallets};
+use crate::circle::{entity_secret::EntitySecret, transactions, wallet_sets, wallets};
 use crate::config::StableflowConfig;
 use crate::error::StableflowError;
 use crate::http::build_http_client;
@@ -13,6 +13,14 @@ impl StableflowClient {
     pub fn new(config: StableflowConfig) -> Result<Self, StableflowError> {
         let http = build_http_client(&config)?;
         Ok(Self { http, config })
+    }
+
+    pub fn config(&self) -> &StableflowConfig {
+        &self.config
+    }
+
+    pub fn entity_secret(&self) -> Result<EntitySecret, StableflowError> {
+        EntitySecret::from_env()
     }
 
     pub async fn create_wallet_set(
