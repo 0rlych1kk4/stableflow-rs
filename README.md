@@ -54,5 +54,10 @@ The current goal is to implement full support for:
 ---
 
 ## License
-MIT
+Licensed under either of:
+
+- MIT License
+- Apache License, Version 2.0
+
+at your option.
 ---
