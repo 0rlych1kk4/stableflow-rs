@@ -8,10 +8,13 @@ use serde::{Deserialize, Serialize};
 pub struct CreateTransferRequest {
     pub idempotency_key: String,
     pub wallet_id: String,
-    pub token_id: String,
     pub destination_address: String,
     pub amounts: Vec<String>,
     pub fee_level: Option<String>,
+    pub entity_secret_ciphertext: String,
+    pub token_id: Option<String>,
+    pub token_address: Option<String>,
+    pub blockchain: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -30,7 +33,7 @@ pub async fn create_transfer(
 ) -> Result<CreateTransferResponse, StableflowError> {
     let url = format!(
         "{}/v1/w3s/developer/transactions/transfer",
-        client.config.base_url()
+        client.config().base_url()
     );
 
     let response = client.http.post(url).json(&req).send().await?;
@@ -41,7 +44,7 @@ pub async fn get_transaction(
     client: &StableflowClient,
     id: &str,
 ) -> Result<GetTransactionResponse, StableflowError> {
-    let url = format!("{}/v1/w3s/transactions/{}", client.config.base_url(), id);
+    let url = format!("{}/v1/w3s/transactions/{}", client.config().base_url(), id);
 
     let response = client.http.get(url).send().await?;
     parse_json_or_error(response).await

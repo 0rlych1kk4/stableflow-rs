@@ -41,6 +41,13 @@ impl StableflowClient {
         wallets::list_wallets(self).await
     }
 
+    pub async fn get_wallet_balances(
+        &self,
+        wallet_id: &str,
+    ) -> Result<wallets::WalletBalanceResponse, StableflowError> {
+        wallets::get_wallet_balances(self, wallet_id).await
+    }
+
     pub async fn create_transfer(
         &self,
         req: transactions::CreateTransferRequest,
