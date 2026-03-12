@@ -37,6 +37,10 @@ impl StableflowClient {
         wallets::create_wallet(self, req).await
     }
 
+    pub async fn list_wallets(&self) -> Result<wallets::ListWalletsResponse, StableflowError> {
+        wallets::list_wallets(self).await
+    }
+
     pub async fn create_transfer(
         &self,
         req: transactions::CreateTransferRequest,
