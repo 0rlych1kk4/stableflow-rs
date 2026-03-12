@@ -1,3 +1,4 @@
+pub mod ciphertext;
 pub mod dev_controlled;
 pub mod entity_secret;
 pub mod transactions;

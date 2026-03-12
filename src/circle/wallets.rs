@@ -49,6 +49,31 @@ pub struct Wallet {
     pub update_date: Option<String>,
 }
 
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct WalletBalanceResponse {
+    pub data: WalletBalanceData,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct WalletBalanceData {
+    pub token_balances: Vec<TokenBalance>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TokenBalance {
+    pub amount: String,
+    pub token: Option<TokenInfo>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TokenInfo {
+    pub symbol: Option<String>,
+}
+
 pub async fn create_wallet(
     client: &StableflowClient,
     req: CreateWalletRequest,
@@ -63,6 +88,20 @@ pub async fn list_wallets(
     client: &StableflowClient,
 ) -> Result<ListWalletsResponse, StableflowError> {
     let url = format!("{}/v1/w3s/wallets", client.config().base_url());
+
+    let response = client.http.get(url).send().await?;
+    parse_json_or_error(response).await
+}
+
+pub async fn get_wallet_balances(
+    client: &StableflowClient,
+    wallet_id: &str,
+) -> Result<WalletBalanceResponse, StableflowError> {
+    let url = format!(
+        "{}/v1/w3s/wallets/{}/balances",
+        client.config().base_url(),
+        wallet_id
+    );
 
     let response = client.http.get(url).send().await?;
     parse_json_or_error(response).await
