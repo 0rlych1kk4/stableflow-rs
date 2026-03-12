@@ -10,13 +10,17 @@ impl<'a> DevControlled<'a> {
         Self { client }
     }
 
-    pub async fn create_wallet_placeholder(&self) -> Result<(), StableflowError> {
+    pub async fn validate_runtime_context(&self) -> Result<(), StableflowError> {
         let secret = self.client.entity_secret()?;
 
-        println!("Dev-controlled flow initialized.");
-        println!("Entity secret length: {}", secret.len());
+        if secret.len() != 64 {
+            return Err(StableflowError::InvalidConfig(
+                "CIRCLE_ENTITY_SECRET must be a 32-byte hex string (64 hex chars)".into(),
+            ));
+        }
 
-        // TODO: Implement native Circle wallet creation
+        println!("Dev-controlled runtime context validated.");
+        println!("Entity secret length: {}", secret.len());
 
         Ok(())
     }
